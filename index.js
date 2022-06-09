@@ -1,7 +1,20 @@
 const express = require('express')
+const morgan = require('morgan')
+const cors = require('cors')
 const app = express()
 
 app.use(express.json())
+app.use(morgan('tiny'))
+app.use(cors())
+
+requestLogger = (request, response, next) => {
+  console.log("Method: ", request.method)
+  console.log("Path: ", request.path)
+  console.log("Body: ", request.body)
+  console.log("---")
+  next()
+}
+// app.use(requestLogger)
 
 let notes = [
   {
@@ -72,6 +85,10 @@ app.post('/api/notes', (request, response) => {
   notes = notes.concat(note)
   response.json(note)
 })
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({error: "uknown endpoint"})
+}
 
 const PORT = 3001
 
