@@ -66,6 +66,26 @@ const generateId = () => {
   return maxId + 1
 }
 
+app.put('/api/notes/:id', (request,response) => {
+  const body = request.body
+  if(!body.content) {
+    return response.status(404).json({
+      error: 'content is missing'
+    })
+  }
+
+  const id = Number(request.params.id)
+  const newNote = {
+    content: body.content,
+    important: body.important || false,
+    date: new Date(),
+    id: id
+  }
+  notes = notes.filter(note => note.id !== id)
+  notes = notes.concat(newNote)
+
+})
+
 app.post('/api/notes', (request, response) => {
   const body = request.body
 
