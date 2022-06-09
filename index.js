@@ -78,9 +78,10 @@ app.put('/api/notes/:id', (request,response) => {
   const newNote = {
     content: body.content,
     important: body.important || false,
-    date: new Date(),
+    date: body.date,
     id: id
   }
+  console.log(newNote)
   notes = notes.filter(note => note.id !== id)
   notes = notes.concat(newNote)
 
