@@ -3,6 +3,7 @@ const morgan = require('morgan')
 const cors = require('cors')
 const app = express()
 
+app.use(express.static('build'))
 app.use(express.json())
 app.use(morgan('tiny'))
 app.use(cors())
@@ -66,26 +67,6 @@ const generateId = () => {
   return maxId + 1
 }
 
-app.put('/api/notes/:id', (request,response) => {
-  const body = request.body
-  if(!body.content) {
-    return response.status(404).json({
-      error: 'content is missing'
-    })
-  }
-
-  const id = Number(request.params.id)
-  const newNote = {
-    content: body.content,
-    important: body.important || false,
-    date: body.date,
-    id: id
-  }
-  console.log(newNote)
-  notes = notes.filter(note => note.id !== id)
-  notes = notes.concat(newNote)
-
-})
 
 app.post('/api/notes', (request, response) => {
   const body = request.body
